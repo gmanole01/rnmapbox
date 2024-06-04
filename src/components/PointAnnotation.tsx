@@ -228,7 +228,7 @@ class PointAnnotation extends NativeBridgeComponent(
       onMapboxPointAnnotationDragStart: this._onDragStart,
       onMapboxPointAnnotationDrag: this._onDrag,
       onMapboxPointAnnotationDragEnd: this._onDragEnd,
-      coordinate: this._getCoordinate(),
+      coordinate: [Number(this.props.coordinate[0]), Number(this.props.coordinate[1])],
     };
     return (
       // @ts-expect-error just codegen stuff
@@ -240,7 +240,7 @@ class PointAnnotation extends NativeBridgeComponent(
 }
 
 type NativeProps = Omit<Props, 'coordinate'> & {
-  coordinate: string | undefined;
+  coordinate: Position;
 };
 
 type NativePointAnnotationRef = Component<NativeProps>;

@@ -6,14 +6,16 @@ import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.viewmanagers.RNMBXPointAnnotationManagerDelegate
 import com.facebook.react.viewmanagers.RNMBXPointAnnotationManagerInterface
 import com.rnmapbox.rnmbx.components.AbstractEventEmitter
 import com.rnmapbox.rnmbx.components.styles.sources.RNMBXShapeSource
 import com.rnmapbox.rnmbx.events.constants.EventKeys
 import com.rnmapbox.rnmbx.events.constants.eventMapOf
-import com.rnmapbox.rnmbx.utils.GeoJSONUtils.toPointGeometry
+import com.rnmapbox.rnmbx.utils.GeoJSONUtils.toGNPointGeometry
 import com.rnmapbox.rnmbx.utils.ViewTagResolver
+import com.rnmapbox.rnmbx.utils.LatLng
 
 class RNMBXPointAnnotationManager(reactApplicationContext: ReactApplicationContext, val viewTagResolver: ViewTagResolver) : AbstractEventEmitter<RNMBXPointAnnotation>(reactApplicationContext),
   RNMBXPointAnnotationManagerInterface<RNMBXPointAnnotation> {
@@ -63,8 +65,8 @@ class RNMBXPointAnnotationManager(reactApplicationContext: ReactApplicationConte
     }
 
     @ReactProp(name = "coordinate")
-    override fun setCoordinate(annotation: RNMBXPointAnnotation, geoJSONStr: Dynamic) {
-        annotation.setCoordinate(toPointGeometry(geoJSONStr.asString())!!)
+    override fun setCoordinate(annotation: RNMBXPointAnnotation, coordinates: Dynamic) {
+        annotation.setCoordinate(toGNPointGeometry(LatLng(coordinates.asArray().getDouble(1), coordinates.asArray().getDouble(0)))!!)
     }
 
     @ReactProp(name = "anchor")
